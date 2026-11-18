@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Services\Cart;
 use RuntimeException;
 
 /**
@@ -33,6 +34,7 @@ final class View
         return [
             'appName' => Config::get('app.name', 'GymShop'),
             'currentUser' => (new Auth($session))->user(),
+            'cartCount' => Cart::fromSession()->getTotalQuantity(),
             'flashMessages' => $session->pullFlashMessages(),
         ];
     }

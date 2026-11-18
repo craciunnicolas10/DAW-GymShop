@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 
 use App\Controllers\AuthController;
+use App\Controllers\CartController;
 use App\Controllers\HomeController;
+use App\Controllers\OrderController;
 use App\Controllers\PageController;
 use App\Controllers\ProductController;
 
@@ -24,3 +26,15 @@ $router->post('/login', [AuthController::class, 'login']);
 $router->get('/register', [AuthController::class, 'showRegister']);
 $router->post('/register', [AuthController::class, 'register']);
 $router->post('/logout', [AuthController::class, 'logout']);
+
+// Shopping cart
+$router->get('/cart', [CartController::class, 'index']);
+$router->post('/cart/add', [CartController::class, 'add']);
+$router->post('/cart/update', [CartController::class, 'update']);
+$router->post('/cart/remove', [CartController::class, 'remove']);
+
+// Orders (authenticated users)
+$router->get('/checkout', [OrderController::class, 'checkout']);
+$router->post('/checkout', [OrderController::class, 'placeOrder']);
+$router->get('/orders', [OrderController::class, 'index']);
+$router->get('/orders/{id}', [OrderController::class, 'show']);
