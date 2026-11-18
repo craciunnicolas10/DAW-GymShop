@@ -1,0 +1,21 @@
+# Root .htaccess: the real web root is the "public" folder.
+# Every request is forwarded there, so application code and configuration are never exposed.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block direct access to private folders and files
+    RewriteRule ^(app|config|database|storage|tests|vendor)(/|$) - [F,L]
+    RewriteRule (^|/)\. - [F,L]
+
+    # Forward everything else to the public folder
+    RewriteRule ^$ public/ [L]
+    RewriteCond %{REQUEST_URI} !/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+<FilesMatch "\.(sql|md|lock|json|xml|dist|log|ini|sh|yml|yaml)$">
+    Require all denied
+</FilesMatch>
