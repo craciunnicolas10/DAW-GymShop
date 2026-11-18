@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="1200" height="480" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Pre-workout pentru energie">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d0a2b"/>
+      <stop offset="1" stop-color="#4a1350"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.78" cy="0.55" r="0.45">
+      <stop offset="0" stop-color="#e0245e" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#e0245e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="480" fill="url(#bg)"/>
+  <rect x="620" y="-100" width="26" height="800" fill="#e0245e" opacity="0.05" transform="rotate(20 620 240)"/>
+  <rect x="690" y="-100" width="26" height="800" fill="#e0245e" opacity="0.062" transform="rotate(20 690 240)"/>
+  <rect x="760" y="-100" width="26" height="800" fill="#e0245e" opacity="0.07400000000000001" transform="rotate(20 760 240)"/>
+  <rect x="830" y="-100" width="26" height="800" fill="#e0245e" opacity="0.08600000000000001" transform="rotate(20 830 240)"/>
+  <rect x="900" y="-100" width="26" height="800" fill="#e0245e" opacity="0.098" transform="rotate(20 900 240)"/>
+  <rect x="970" y="-100" width="26" height="800" fill="#e0245e" opacity="0.11" transform="rotate(20 970 240)"/>
+  <rect x="1040" y="-100" width="26" height="800" fill="#e0245e" opacity="0.12200000000000001" transform="rotate(20 1040 240)"/>
+  <rect x="1110" y="-100" width="26" height="800" fill="#e0245e" opacity="0.134" transform="rotate(20 1110 240)"/>
+  <rect x="1180" y="-100" width="26" height="800" fill="#e0245e" opacity="0.14600000000000002" transform="rotate(20 1180 240)"/>
+  <rect width="1200" height="480" fill="url(#glow)"/>
+  <g transform="translate(860 120)">
+    <ellipse cx="90" cy="300" rx="120" ry="16" fill="#000" opacity="0.35"/>
+    <rect x="-10" y="0" width="200" height="46" rx="10" fill="#e0245e"/>
+    <path d="M-16 50 h212 l-6 236 a12 12 0 0 1 -12 12 h-176 a12 12 0 0 1 -12 -12 z" fill="#14171c"/>
+    <rect x="-12" y="110" width="204" height="120" fill="#e0245e"/>
+    <rect x="4" y="60" width="14" height="228" rx="7" fill="#fff" opacity="0.08"/>
+  </g>
+  <g transform="translate(700 210) scale(0.62)">
+    <rect x="-10" y="0" width="200" height="46" rx="10" fill="#ffffff" opacity="0.9"/>
+    <path d="M-16 50 h212 l-6 236 a12 12 0 0 1 -12 12 h-176 a12 12 0 0 1 -12 -12 z" fill="#1f242b"/>
+    <rect x="-12" y="110" width="204" height="120" fill="#ffffff" opacity="0.85"/>
+  </g>
+</svg>

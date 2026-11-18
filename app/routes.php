@@ -8,5 +8,11 @@ declare(strict_types=1);
  */
 
 use App\Controllers\HomeController;
+use App\Controllers\PageController;
+use App\Controllers\ProductController;
 
+// Public pages
 $router->get('/', [HomeController::class, 'index']);
+$router->get('/products', [ProductController::class, 'index']);
+$router->get('/products/{slug}', [ProductController::class, 'show']);
+$router->get('/about', [PageController::class, 'about']);
