@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    name: Lint and unit tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.3']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo_mysql, fileinfo
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ runner.os }}-${{ matrix.php }}-${{ hashFiles('composer.json') }}
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Check PHP syntax
+        run: find app config public tests -name "*.php" -print0 | xargs -0 -n1 php -l
+
+      - name: Run unit tests
+        run: vendor/bin/phpunit --testdox
+
+  integration:
+    name: Database import and smoke test
+    runs-on: ubuntu-latest
+    needs: unit-tests
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: gymshop
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql, fileinfo
+          coverage: none
+
+      - name: Import database schema and demo data
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot gymshop < database/schema.sql
+          mysql -h 127.0.0.1 -uroot -proot gymshop < database/seed.sql
+          mysql -h 127.0.0.1 -uroot -proot gymshop -e "SELECT COUNT(*) AS products FROM products; SELECT COUNT(*) AS users FROM users;"
+
+      - name: Create local configuration
+        run: |
+          cat > config/config.local.php <<'PHP'
+          <?php
+          $config = require __DIR__ . '/config.example.php';
+          $config['database']['password'] = 'root';
+          return $config;
+          PHP
+
+      - name: Start PHP built-in server
+        run: |
+          php -S 127.0.0.1:8000 -t public > /tmp/php-server.log 2>&1 &
+          sleep 2
+
+      - name: Run smoke tests
+        run: bash .github/scripts/smokeTest.sh http://127.0.0.1:8000
+
+      - name: Show activity log
+        if: always()
+        run: cat storage/logs/activity.log || true
+
+      - name: Show server log on failure
+        if: failure()
+        run: cat /tmp/php-server.log
