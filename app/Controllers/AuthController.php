@@ -121,6 +121,7 @@ final class AuthController extends Controller
     {
         $this->logActivity('LOGOUT');
         $this->auth->logout();
+        $this->session->remove('intendedPath');
         $this->session->flash('success', 'Te-ai deconectat cu succes.');
         $this->redirect('/');
     }

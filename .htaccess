@@ -16,6 +16,11 @@ Options -Indexes
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
-<FilesMatch "\.(sql|md|lock|json|xml|dist|log|ini|sh|yml|yaml)$">
+# Project files that must never be downloaded
+<FilesMatch "^(composer\.(json|lock)|phpunit\.xml|README\.md)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(sql|lock|dist|log|ini|sh|yml|yaml)$">
     Require all denied
 </FilesMatch>

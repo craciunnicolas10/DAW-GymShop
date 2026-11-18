@@ -91,7 +91,3 @@ CREATE TABLE order_items (
     CONSTRAINT fk_order_items_order FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE,
     CONSTRAINT fk_order_items_product FOREIGN KEY (product_id) REFERENCES products (id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
-CREATE INDEX idx_products_category ON products (category_id);
-CREATE INDEX idx_products_brand ON products (brand_id);
-CREATE INDEX idx_orders_user ON orders (user_id);
