@@ -1,0 +1,61 @@
+name: Deploy
+
+# Uploads the site to the hosting server through FTP, only after the CI workflow passed on main.
+# Required repository secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, DB_HOST, DB_NAME, DB_USER, DB_PASSWORD
+# Required repository variable: DEPLOY_ENABLED = true
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Upload to hosting
+    runs-on: ubuntu-latest
+    if: >-
+      vars.DEPLOY_ENABLED == 'true' &&
+      (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Create production configuration
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: php .github/scripts/createProductionConfig.php
+
+      - name: Upload files through FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || '/htdocs/' }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            tests/**
+            vendor/**
+            storage/logs/*.log
+            public/uploads/products/**
+            phpunit.xml
+            composer.json
+            *.pdf
