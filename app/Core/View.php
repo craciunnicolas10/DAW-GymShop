@@ -32,6 +32,7 @@ final class View
 
         return [
             'appName' => Config::get('app.name', 'GymShop'),
+            'currentUser' => (new Auth($session))->user(),
             'flashMessages' => $session->pullFlashMessages(),
         ];
     }
