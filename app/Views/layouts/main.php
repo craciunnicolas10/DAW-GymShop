@@ -25,6 +25,7 @@ $fullTitle = isset($pageTitle) ? $pageTitle . ' | ' . $appName : $appName . ' - 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap">
     <link rel="stylesheet" href="<?= asset('assets/css/main.css') ?>">
     <link rel="stylesheet" href="<?= asset('assets/css/components.css') ?>">
+    <link rel="stylesheet" href="<?= asset('assets/css/animations.css') ?>">
     <link rel="stylesheet" href="<?= asset('assets/css/responsive.css') ?>">
 </head>
 <body>

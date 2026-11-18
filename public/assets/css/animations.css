@@ -1,0 +1,124 @@
+/* ==========================================================================
+   animations.css - keyframe animations used across the site
+   ========================================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(24px);
+    }
+}
+
+@keyframes badgePop {
+    0% {
+        transform: scale(0.4);
+    }
+
+    60% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pulseGlow {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 77, 46, 0.45);
+    }
+
+    50% {
+        box-shadow: 0 0 0 10px rgba(255, 77, 46, 0);
+    }
+}
+
+/* Carousel caption: every element enters one after another */
+.carousel__slide.is-active .carousel__caption > * {
+    animation: fadeInUp 0.7s ease backwards;
+}
+
+.carousel__slide.is-active .carousel__caption > :nth-child(2) {
+    animation-delay: 0.12s;
+}
+
+.carousel__slide.is-active .carousel__caption > :nth-child(3) {
+    animation-delay: 0.24s;
+}
+
+.carousel__slide.is-active .carousel__caption > :nth-child(4) {
+    animation-delay: 0.36s;
+}
+
+/* Product cards appear with a small staggered delay */
+.product-grid .product-card {
+    animation: fadeInUp 0.5s ease backwards;
+}
+
+.product-grid .product-card:nth-child(2) { animation-delay: 0.05s; }
+.product-grid .product-card:nth-child(3) { animation-delay: 0.1s; }
+.product-grid .product-card:nth-child(4) { animation-delay: 0.15s; }
+.product-grid .product-card:nth-child(5) { animation-delay: 0.2s; }
+.product-grid .product-card:nth-child(6) { animation-delay: 0.25s; }
+.product-grid .product-card:nth-child(7) { animation-delay: 0.3s; }
+.product-grid .product-card:nth-child(8) { animation-delay: 0.35s; }
+
+.category-card {
+    animation: fadeInUp 0.5s ease backwards;
+}
+
+/* Flash messages slide in and fade out when closed */
+.alert {
+    animation: slideInDown 0.4s ease backwards;
+}
+
+.alert.is-hiding {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+/* Cart counter "pops" when it contains products */
+.cart-badge.is-visible {
+    animation: badgePop 0.5s ease backwards;
+}
+
+/* Call to action button on the product page pulses gently */
+.add-to-cart-form .button {
+    animation: pulseGlow 2.4s ease-in-out infinite;
+}
+
+/* Respect the operating system setting for users sensitive to motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

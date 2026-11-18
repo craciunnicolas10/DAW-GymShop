@@ -21,6 +21,7 @@ final class HomeController extends Controller
             'pageTitle' => 'Suplimente pentru sală',
             'categories' => $categoryRepository->findAll(),
             'featuredProducts' => $productRepository->findFeatured(8),
+            'scripts' => ['assets/js/carousel.js'],
         ]);
     }
 }
