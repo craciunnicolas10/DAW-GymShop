@@ -11,6 +11,7 @@ use App\Core\Validator;
 use App\Exceptions\AuthorizationException;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\ValidationException;
+use App\Interfaces\LoggerInterface;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Services\Cart;
@@ -83,10 +84,16 @@ final class OrderController extends Controller
             );
         } catch (ValidationException $exception) {
             // Another customer bought the last items in the meantime.
+            $this->logActivity('ORDER_FAILED', ['reason' => 'insufficient stock'], LoggerInterface::LEVEL_WARNING);
             $this->session->flash('error', implode(' ', $exception->getErrors()));
             $this->redirect('/cart');
         }
 
+        $this->logActivity('ORDER_PLACED', [
+            'orderId' => $orderId,
+            'items' => count($orderLines),
+            'total' => round(array_sum(array_column($lines, 'subtotal')), 2),
+        ]);
         $this->cart->clear();
         $this->session->flash('success', "Comanda #{$orderId} a fost plasată cu succes. Îți mulțumim!");
         $this->redirect('/orders/' . $orderId);
@@ -110,6 +117,7 @@ final class OrderController extends Controller
 
         // Authorization: a customer can see only his own orders, the admin can see all of them.
         if (!$order->belongsTo($this->auth->id()) && !$this->auth->isAdmin()) {
+            $this->logActivity('ACCESS_DENIED', ['orderId' => $order->getId()], LoggerInterface::LEVEL_WARNING);
             throw new AuthorizationException('Nu ai acces la această comandă.');
         }
 

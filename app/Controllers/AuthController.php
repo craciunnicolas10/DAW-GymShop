@@ -8,6 +8,7 @@ use App\Core\Controller;
 use App\Core\Database;
 use App\Core\Validator;
 use App\Exceptions\ValidationException;
+use App\Interfaces\LoggerInterface;
 use App\Repositories\UserRepository;
 
 /**
@@ -43,11 +44,13 @@ final class AuthController extends Controller
         $user = $userRepository->findByEmail($data['email']);
 
         if ($user === null || !$user->verifyPassword($data['password'])) {
+            $this->logActivity('LOGIN_FAILED', ['email' => $data['email']], LoggerInterface::LEVEL_WARNING);
             $this->renderLoginForm(['email' => 'Adresa de email sau parola este incorectă.'], $data);
             return;
         }
 
         $this->auth->login($user);
+        $this->logActivity('LOGIN', ['role' => $user->getRole()]);
         $this->session->flash('success', 'Bine ai revenit, ' . $user->getFullName() . '!');
 
         $intendedPath = $this->session->get('intendedPath');
@@ -109,12 +112,14 @@ final class AuthController extends Controller
         );
 
         $this->auth->login($userRepository->findById($userId));
+        $this->logActivity('REGISTER', ['userId' => $userId]);
         $this->session->flash('success', 'Contul a fost creat. Bine ai venit în comunitatea GymShop!');
         $this->redirect('/');
     }
 
     public function logout(): void
     {
+        $this->logActivity('LOGOUT');
         $this->auth->logout();
         $this->session->flash('success', 'Te-ai deconectat cu succes.');
         $this->redirect('/');

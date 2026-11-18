@@ -67,7 +67,8 @@ final class AdminProductController extends AdminController
         }
 
         $product = $this->buildProduct(null, $data, $slug, $imagePath);
-        $this->productRepository->create($product);
+        $productId = $this->productRepository->create($product);
+        $this->logActivity('ADMIN_PRODUCT_CREATE', ['productId' => $productId, 'name' => $product->getName()]);
 
         $this->session->flash('success', "Produsul „{$product->getName()}” a fost adăugat.");
         $this->redirect('/admin/products');
@@ -104,6 +105,11 @@ final class AdminProductController extends AdminController
             $newImagePath ?? $existingProduct->getImagePath()
         );
         $this->productRepository->update($product);
+        $this->logActivity('ADMIN_PRODUCT_UPDATE', [
+            'productId' => $product->getId(),
+            'price' => $product->getPrice(),
+            'stock' => $product->getStock(),
+        ]);
 
         $this->session->flash('success', "Produsul „{$product->getName()}” a fost actualizat.");
         $this->redirect('/admin/products');
@@ -116,6 +122,7 @@ final class AdminProductController extends AdminController
         try {
             $this->productRepository->deleteById($product->getId());
             $this->imageUploader->delete($product->getImagePath());
+            $this->logActivity('ADMIN_PRODUCT_DELETE', ['productId' => $product->getId(), 'name' => $product->getName()]);
             $this->session->flash('success', "Produsul „{$product->getName()}” a fost șters.");
         } catch (PDOException $exception) {
             // SQLSTATE 23000 = integrity constraint violation (the product appears in orders).

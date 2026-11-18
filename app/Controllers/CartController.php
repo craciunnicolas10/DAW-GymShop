@@ -45,7 +45,9 @@ final class CartController extends Controller
         }
 
         try {
-            $this->cart->add($product->getId(), (int) $this->request->input('quantity', '1'), $product->getStock());
+            $quantity = (int) $this->request->input('quantity', '1');
+            $newQuantity = $this->cart->add($product->getId(), $quantity, $product->getStock());
+            $this->logActivity('CART_ADD', ['productId' => $product->getId(), 'quantity' => $quantity, 'cartQuantity' => $newQuantity]);
             $this->session->flash('success', "„{$product->getName()}” a fost adăugat în coș.");
         } catch (InvalidArgumentException $exception) {
             $this->session->flash('error', $exception->getMessage());
@@ -65,13 +67,16 @@ final class CartController extends Controller
             $this->cart->update($productId, (int) $this->request->input('quantity'), $product->getStock());
         }
 
+        $this->logActivity('CART_UPDATE', ['productId' => $productId, 'quantity' => $this->cart->getQuantity($productId)]);
         $this->session->flash('success', 'Coșul a fost actualizat.');
         $this->redirect('/cart');
     }
 
     public function remove(): void
     {
-        $this->cart->remove((int) $this->request->input('productId'));
+        $productId = (int) $this->request->input('productId');
+        $this->cart->remove($productId);
+        $this->logActivity('CART_REMOVE', ['productId' => $productId]);
         $this->session->flash('success', 'Produsul a fost eliminat din coș.');
         $this->redirect('/cart');
     }

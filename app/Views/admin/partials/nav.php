@@ -6,6 +6,7 @@ $sections = [
     'dashboard' => ['label' => 'Panou', 'path' => '/admin'],
     'products' => ['label' => 'Produse', 'path' => '/admin/products'],
     'orders' => ['label' => 'Comenzi', 'path' => '/admin/orders'],
+    'logs' => ['label' => 'Jurnal activitate', 'path' => '/admin/logs'],
 ];
 ?>
 <nav class="admin-nav" aria-label="Meniu administrare">

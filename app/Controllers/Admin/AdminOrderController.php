@@ -43,6 +43,11 @@ final class AdminOrderController extends AdminController
         }
 
         $this->orderRepository->updateStatus($order->getId(), $status);
+        $this->logActivity('ADMIN_ORDER_STATUS', [
+            'orderId' => $order->getId(),
+            'from' => $order->getStatus(),
+            'to' => $status,
+        ]);
         $this->session->flash('success', "Statusul comenzii #{$order->getId()} a fost schimbat în „" . Order::STATUS_LABELS[$status] . '”.');
         $this->redirect('/admin/orders');
     }

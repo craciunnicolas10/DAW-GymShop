@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 use App\Controllers\Admin\AdminDashboardController;
+use App\Controllers\Admin\AdminLogController;
 use App\Controllers\Admin\AdminOrderController;
 use App\Controllers\Admin\AdminProductController;
 use App\Controllers\AuthController;
@@ -52,3 +53,5 @@ $router->post('/admin/products/{id}/update', [AdminProductController::class, 'up
 $router->post('/admin/products/{id}/delete', [AdminProductController::class, 'delete']);
 $router->get('/admin/orders', [AdminOrderController::class, 'index']);
 $router->post('/admin/orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
+$router->get('/admin/logs', [AdminLogController::class, 'index']);
+$router->get('/admin/logs/download', [AdminLogController::class, 'download']);

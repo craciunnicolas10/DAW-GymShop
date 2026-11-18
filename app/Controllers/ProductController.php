@@ -43,6 +43,10 @@ final class ProductController extends Controller
             throw new NotFoundException('Categoria căutată nu există.');
         }
 
+        if ($search !== '') {
+            $this->logActivity('PRODUCT_SEARCH', ['search' => $search, 'category' => $activeCategory?->getSlug()]);
+        }
+
         $this->render('products/index', [
             'pageTitle' => $activeCategory?->getName() ?? 'Toate produsele',
             'metaDescription' => $activeCategory?->getDescription()
@@ -65,6 +69,8 @@ final class ProductController extends Controller
         if ($product === null) {
             throw new NotFoundException('Produsul căutat nu există.');
         }
+
+        $this->logActivity('PRODUCT_VIEW', ['productId' => $product->getId(), 'slug' => $product->getSlug()]);
 
         $relatedProducts = array_filter(
             $this->productRepository->findByFilters($product->getCategorySlug(), '', 'newest'),

@@ -22,5 +22,5 @@ $request = Request::fromGlobals((string) Config::get('app.baseUrl', ''));
 try {
     $router->dispatch($request);
 } catch (Throwable $exception) {
-    ErrorHandler::handle($exception);
+    ErrorHandler::handle($exception, $request);
 }

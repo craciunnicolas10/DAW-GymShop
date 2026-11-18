@@ -5,20 +5,37 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Exceptions\AuthorizationException;
+use App\Interfaces\LoggerInterface;
+use App\Services\FileLogger;
 
 /**
  * Base class for all controllers. Offers helpers for rendering views,
- * redirecting and checking the access rights of the current user.
+ * redirecting, logging and checking the access rights of the current user.
  */
 abstract class Controller
 {
     protected Session $session;
     protected Auth $auth;
+    protected LoggerInterface $logger;
 
     public function __construct(protected Request $request)
     {
         $this->session = new Session();
         $this->auth = new Auth($this->session);
+        $this->logger = new FileLogger((string) Config::get('logging.file'));
+    }
+
+    /**
+     * Writes a user action in the activity log, together with the user and the IP address.
+     */
+    protected function logActivity(string $action, array $details = [], string $level = LoggerInterface::LEVEL_INFO): void
+    {
+        $user = $this->auth->user();
+
+        $this->logger->log($level, $action, [
+            'user' => $user !== null ? "{$user['email']} (#{$user['id']})" : 'guest',
+            'ip' => $this->request->getIpAddress(),
+        ] + $details);
     }
 
     protected function render(string $view, array $data = [], int $statusCode = 200): void
@@ -55,6 +72,7 @@ abstract class Controller
         $this->requireLogin();
 
         if (!$this->auth->isAdmin()) {
+            $this->logActivity('ACCESS_DENIED', ['path' => $this->request->getPath()], LoggerInterface::LEVEL_WARNING);
             throw new AuthorizationException();
         }
     }
