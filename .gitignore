@@ -1,0 +1,22 @@
+# Private course documents - never upload
+*.pdf
+Barem*
+
+# Dependencies
+/vendor/
+
+# Local configuration (contains credentials)
+/config/config.local.php
+
+# Runtime files
+/storage/logs/*.log
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# Tooling
+.phpunit.result.cache
+.phpunit.cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
