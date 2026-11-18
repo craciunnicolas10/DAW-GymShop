@@ -7,6 +7,9 @@ declare(strict_types=1);
  * @var App\Core\Router $router
  */
 
+use App\Controllers\Admin\AdminDashboardController;
+use App\Controllers\Admin\AdminOrderController;
+use App\Controllers\Admin\AdminProductController;
 use App\Controllers\AuthController;
 use App\Controllers\CartController;
 use App\Controllers\HomeController;
@@ -38,3 +41,14 @@ $router->get('/checkout', [OrderController::class, 'checkout']);
 $router->post('/checkout', [OrderController::class, 'placeOrder']);
 $router->get('/orders', [OrderController::class, 'index']);
 $router->get('/orders/{id}', [OrderController::class, 'show']);
+
+// Administration (admin role only)
+$router->get('/admin', [AdminDashboardController::class, 'index']);
+$router->get('/admin/products', [AdminProductController::class, 'index']);
+$router->get('/admin/products/create', [AdminProductController::class, 'create']);
+$router->post('/admin/products', [AdminProductController::class, 'store']);
+$router->get('/admin/products/{id}/edit', [AdminProductController::class, 'edit']);
+$router->post('/admin/products/{id}/update', [AdminProductController::class, 'update']);
+$router->post('/admin/products/{id}/delete', [AdminProductController::class, 'delete']);
+$router->get('/admin/orders', [AdminOrderController::class, 'index']);
+$router->post('/admin/orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
