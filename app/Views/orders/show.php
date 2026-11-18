@@ -19,7 +19,7 @@
 
     <div class="two-columns">
         <div class="table-wrapper">
-            <table class="table">
+            <table class="table table--responsive">
                 <caption>Produse comandate</caption>
                 <thead>
                 <tr>

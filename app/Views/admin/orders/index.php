@@ -12,7 +12,7 @@
     <?= App\Core\View::renderFile('admin/partials/nav', ['activeSection' => $activeSection]) ?>
 
     <div class="table-wrapper">
-        <table class="table">
+        <table class="table table--responsive">
             <caption><?= count($orders) ?> comenzi</caption>
             <thead>
             <tr>

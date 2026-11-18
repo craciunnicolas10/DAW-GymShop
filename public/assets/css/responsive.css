@@ -1,0 +1,271 @@
+/* ==========================================================================
+   responsive.css - layout adjustments for tablets and phones
+   Breakpoints: 1024px (small laptop / tablet landscape), 900px (tablet),
+                640px (phone landscape), 420px (small phone)
+   ========================================================================== */
+
+/* ---------- Tablet landscape & small laptops ---------- */
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .feature-list,
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .catalog-layout {
+        grid-template-columns: 220px 1fr;
+        gap: 24px;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-details {
+        gap: 32px;
+    }
+
+    .carousel__title {
+        font-size: 2.5rem;
+    }
+}
+
+/* ---------- Tablet portrait: collapsible navigation ---------- */
+@media (max-width: 900px) {
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-toggle.is-open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-toggle.is-open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle.is-open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .main-nav {
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 16px 24px 24px;
+        background-color: var(--color-ink);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-nav.is-open {
+        display: flex;
+        animation: slideInDown 0.25s ease;
+    }
+
+    .nav-links {
+        flex-direction: column;
+    }
+
+    .nav-links a {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .nav-actions {
+        flex-wrap: wrap;
+    }
+
+    .nav-actions > * {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .inline-form .nav-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .product-details,
+    .two-columns,
+    .media-text {
+        grid-template-columns: 1fr;
+    }
+
+    .media-text img {
+        max-width: 260px;
+    }
+
+    .carousel {
+        height: 420px;
+    }
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 640px) {
+    h1 {
+        font-size: 1.9rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+    .section {
+        padding: 32px 0;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-grid,
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .product-card__body {
+        padding: 12px;
+    }
+
+    .product-card__footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .product-card__footer .button {
+        width: 100%;
+    }
+
+    .catalog-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        position: static;
+    }
+
+    .feature-list,
+    .stats-grid,
+    .form-row,
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-card,
+    .content-card {
+        padding: 20px;
+    }
+
+    .carousel {
+        height: 380px;
+    }
+
+    .carousel__title {
+        font-size: 1.8rem;
+    }
+
+    .carousel__text {
+        font-size: 1rem;
+    }
+
+    .carousel__control {
+        display: none;
+    }
+
+    .add-to-cart-form {
+        flex-direction: column;
+    }
+
+    .add-to-cart-form input[type="number"] {
+        width: 100%;
+    }
+
+    .price--large {
+        font-size: 1.8rem;
+    }
+
+    .error-code {
+        font-size: 4rem;
+    }
+
+    /* Data tables become stacked "cards": every cell shows its column name */
+    .table--responsive thead {
+        display: none;
+    }
+
+    .table--responsive,
+    .table--responsive tbody,
+    .table--responsive tfoot,
+    .table--responsive tr,
+    .table--responsive td {
+        display: block;
+        width: 100%;
+    }
+
+    .table--responsive tr {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .table--responsive td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 16px;
+        border-bottom: 0;
+        text-align: right;
+    }
+
+    .table--responsive td[data-label]::before {
+        content: attr(data-label);
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-muted);
+        text-align: left;
+    }
+
+    .table--responsive .numeric {
+        text-align: right;
+    }
+
+    .table-product {
+        text-align: left;
+    }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 420px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .logo span {
+        font-size: 1.25rem;
+    }
+
+    .carousel__eyebrow {
+        font-size: 0.75rem;
+    }
+}

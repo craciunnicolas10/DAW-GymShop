@@ -17,7 +17,7 @@
     <?php else: ?>
         <div class="two-columns">
             <div class="table-wrapper">
-                <table class="table cart-table">
+                <table class="table table--responsive cart-table">
                     <caption>Produsele din coș</caption>
                     <thead>
                     <tr>

@@ -15,7 +15,7 @@
         </div>
     <?php else: ?>
         <div class="table-wrapper">
-            <table class="table">
+            <table class="table table--responsive">
                 <caption>Istoricul comenzilor</caption>
                 <thead>
                 <tr>

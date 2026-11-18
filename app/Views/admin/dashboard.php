@@ -41,7 +41,7 @@
             <a href="<?= url('/admin/orders') ?>">Toate comenzile &rarr;</a>
         </div>
         <div class="table-wrapper">
-            <table class="table">
+            <table class="table table--responsive">
                 <thead>
                 <tr>
                     <th scope="col">Comandă</th>
